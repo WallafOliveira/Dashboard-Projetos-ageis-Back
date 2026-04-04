@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+<<<<<<< HEAD
 use App\Models\PerfilAcesso;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,4 +46,11 @@ class PerfilAcessoController extends Controller
         $perfilAcesso->delete();
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
+=======
+use Illuminate\Http\Request;
+
+class PerfilAcessoController extends Controller
+{
+    //
+>>>>>>> a850cd7c88af1deddd85d5e4c3e34cc6a5112ba3
 }

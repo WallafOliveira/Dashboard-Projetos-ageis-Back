@@ -78,6 +78,7 @@ document.getElementById('formLogin').addEventListener('submit', async function(e
     } catch (error) {
         erroDiv.innerText = 'Erro na conexão com o servidor';
         erroDiv.classList.remove('d-none');
+      
     }
 });
 </script>

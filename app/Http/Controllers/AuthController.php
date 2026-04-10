@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Usuario;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -13,46 +14,35 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
 
-        if (! $token = Auth::guard('api')->attempt([
-            'email' => $credentials['email'],
-            'password' => $credentials['senha'],
-        ])) {
+        $user = Usuario::where('email', $credentials['email'])->first();
+
+        if (! $user || $user->senha !== $credentials['senha']) {
             return response()->json([
                 'message' => 'Credenciais inválidas.',
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        return $this->respondWithToken($token);
+        session(['usuario_id' => $user->id]);
+
+        return response()->json([
+            'message' => 'Login realizado com sucesso.',
+            'user' => $user,
+        ], Response::HTTP_OK);
     }
 
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
-        Auth::guard('api')->logout();
+        $request->session()->forget('usuario_id');
 
         return response()->json([
             'message' => 'Logout realizado com sucesso.',
         ], Response::HTTP_OK);
     }
 
-    public function refresh(): JsonResponse
+    public function me(Request $request): JsonResponse
     {
-        $token = Auth::guard('api')->refresh();
+        $user = Usuario::find(session('usuario_id'));
 
-        return $this->respondWithToken($token);
-    }
-
-    public function me(): JsonResponse
-    {
-        return response()->json(Auth::guard('api')->user(), Response::HTTP_OK);
-    }
-
-    protected function respondWithToken(string $token): JsonResponse
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => Auth::guard('api')->factory()->getTTL() * 60,
-            'user' => Auth::guard('api')->user(),
-        ], Response::HTTP_OK);
+        return response()->json($user, Response::HTTP_OK);
     }
 }

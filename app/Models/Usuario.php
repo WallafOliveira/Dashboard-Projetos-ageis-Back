@@ -2,23 +2,16 @@
 
 namespace App\Models;
 
-<<<<<<< HEAD
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     protected $table = 'usuarios';
 
-=======
-use Illuminate\Database\Eloquent\Model;
-
-class Usuario extends Model
-{
-    protected $table = 'usuarios';
->>>>>>> a850cd7c88af1deddd85d5e4c3e34cc6a5112ba3
     protected $fillable = [
         'nome',
         'email',
@@ -26,7 +19,6 @@ class Usuario extends Model
         'perfil_acesso_id',
     ];
 
-<<<<<<< HEAD
     protected $hidden = [
         'senha',
     ];
@@ -41,8 +33,6 @@ class Usuario extends Model
         return $this->senha;
     }
 
-=======
->>>>>>> a850cd7c88af1deddd85d5e4c3e34cc6a5112ba3
     public function perfilAcesso()
     {
         return $this->belongsTo(PerfilAcesso::class, 'perfil_acesso_id');

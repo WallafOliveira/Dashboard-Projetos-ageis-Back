@@ -5,20 +5,11 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
-<<<<<<< HEAD
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "http://mirrors.aliyun.com/composer/"
-        }
-    },
-=======
->>>>>>> a850cd7c88af1deddd85d5e4c3e34cc6a5112ba3
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
-        "php-open-source-saver/jwt-auth": "2.8"
+        "laravel/sanctum": "^4.3",
+        "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

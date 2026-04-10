@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
 use App\Models\Relatorio;
 use App\Services\RelatoriosService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class RelatoriosController extends Controller
@@ -52,11 +52,4 @@ class RelatoriosController extends Controller
         $this->relatoriosService->deletarRelatorio($relatorio);
         return response()->json(null, Response::HTTP_NO_CONTENT);
     }
-=======
-use Illuminate\Http\Request;
-
-class RelatoriosController extends Controller
-{
-    //
->>>>>>> a850cd7c88af1deddd85d5e4c3e34cc6a5112ba3
 }

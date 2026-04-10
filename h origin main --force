@@ -1,0 +1,6 @@
+[33mc71b536[m[33m ([m[1;31morigin/relatorio_impl[m[33m, [m[1;31morigin/main[m[33m)[m resolvendo conflito
+[33m3cf272d[m[33m ([m[1;31morigin/master[m[33m)[m primeiro commit
+[33m6c7af5e[m primeiro commit
+[33ma850cd7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m - Renamed and refactored `UsuariosController` to `DashboardController`, `PerfilAcessoController`, and `RelatoriosController`. - Updated `ProdutosController` to handle CRUD operations for products using `ProdutosService`. - Created `VendasController` for managing sales, including methods for listing, creating, and deleting sales. - Added request validation classes for `Produto` and `Venda` entities. - Implemented `UsuariosService` for user management, including methods for creating, updating, and deleting users. - Integrated JWT authentication by adding necessary configurations and dependencies. - Updated API routes to reflect new controller methods and structure.
+[33mca5ece3[m adiciona controladores, modelos e migrações para usuários, produtos e relatórios
+[33m8216aaf[m first commit

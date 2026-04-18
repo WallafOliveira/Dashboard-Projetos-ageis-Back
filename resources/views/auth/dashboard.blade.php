@@ -38,6 +38,32 @@
         .card {
             border-radius: 12px;
         }
+
+        .grafico-tempo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 12px;
+            align-items: flex-end;
+            padding-top: 16px;
+        }
+
+        .grafico-barra {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 6px 0;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .grafico-barra-fill {
+            width: 100%;
+            background: linear-gradient(180deg, #4f46e5 0%, #818cf8 100%);
+            border-radius: 12px 12px 0 0;
+            transition: height 0.3s ease;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +119,12 @@
                 <h3 id="faturamento">R$ 0</h3>
             </div>
         </div>
+    </div>
+
+    <!-- GRÁFICO DE TEMPO -->
+    <div class="card shadow p-3 mb-4">
+        <h5>Vendas por dia</h5>
+        <div id="graficoVendasPorDia" class="grafico-tempo"></div>
     </div>
 
     <!-- TABELA -->
@@ -188,11 +220,37 @@ async function carregarDashboard() {
         const user = await userRes.json();
         document.getElementById('usuarioNome').innerText = 'Olá, ' + user.nome;
 
+        renderGraficoVendasPorDia(data.vendas_por_dia);
         mostrarFeedback('Dashboard carregado!');
 
     } catch {
         mostrarFeedback('Erro ao carregar dados', 'danger');
     }
+}
+
+function renderGraficoVendasPorDia(vendasPorDia) {
+    const container = document.getElementById('graficoVendasPorDia');
+    container.innerHTML = '';
+
+    if (!Array.isArray(vendasPorDia) || vendasPorDia.length === 0) {
+        container.innerHTML = '<div class="text-muted">Sem dados de vendas recentes</div>';
+        return;
+    }
+
+    const maxValor = Math.max(...vendasPorDia.map(item => item.valor || 0), 1);
+
+    vendasPorDia.forEach(item => {
+        const altura = Math.max(16, Math.round((item.valor / maxValor) * 140));
+        const valorFormatado = Number(item.valor).toFixed(2).replace('.', ',');
+
+        container.innerHTML += `
+            <div class="grafico-barra">
+                <div class="grafico-barra-fill" style="height: ${altura}px"></div>
+                <small>${item.dia}</small>
+                <strong>R$ ${valorFormatado}</strong>
+            </div>
+        `;
+    });
 }
 
 carregarDashboard();

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GraficoAnaliticoController;
+use App\Http\Controllers\PainelAnaliticoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PerfilAcessoController;
 use App\Http\Controllers\ProdutosController;
@@ -10,7 +12,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('check.login')->group(function () {
+Route::prefix('/v1')->group(function () {
+    Route::get('/panorama', [PainelAnaliticoController::class, 'panorama']);
+
+    Route::get('/paineis/{dominio}/visao-geral', [PainelAnaliticoController::class, 'visaoGeral']);
+    Route::get('/paineis/{dominio}/visao-tatica', [PainelAnaliticoController::class, 'visaoTatica']);
+    Route::get('/filtros/{dominio}', [PainelAnaliticoController::class, 'filtros']);
+
+    Route::get('/graficos/{chaveGrafico}', [GraficoAnaliticoController::class, 'exibir']);
+    Route::post('/graficos/{chaveGrafico}/consultar', [GraficoAnaliticoController::class, 'consultar']);
+});
+
+Route::middleware('cheReck.login')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
@@ -38,4 +51,5 @@ Route::middleware('check.login')->group(function () {
     Route::delete('/perfil-acesso/{perfilAcesso}', [PerfilAcessoController::class, 'destroy']);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
+
 });

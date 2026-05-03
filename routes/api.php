@@ -8,7 +8,18 @@ use App\Http\Controllers\PerfilAcessoController;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\VendasController;
+use App\Http\Controllers\Api\DashboardController as MultiDomainDashboardController;
 use Illuminate\Support\Facades\Route;
+
+Route::prefix('dashboard')->group(function () {
+    Route::get('/visao-geral', [MultiDomainDashboardController::class, 'getVisaoGeral']);
+    Route::get('/estrategico', [MultiDomainDashboardController::class, 'getEstrategico']);
+    Route::get('/operacional', [MultiDomainDashboardController::class, 'getOperacional']);
+    Route::get('/financeiro', [MultiDomainDashboardController::class, 'getFinanceiro']);
+    Route::get('/comercial', [MultiDomainDashboardController::class, 'getComercial']);
+    Route::get('/clientes', [MultiDomainDashboardController::class, 'getClientes']);
+    Route::get('/estoque', [MultiDomainDashboardController::class, 'getEstoque']);
+});
 
 Route::post('/login', [AuthController::class, 'login']);
 

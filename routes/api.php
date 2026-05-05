@@ -34,7 +34,7 @@ Route::prefix('/v1')->group(function () {
     Route::post('/graficos/{chaveGrafico}/consultar', [GraficoAnaliticoController::class, 'consultar']);
 });
 
-Route::middleware('cheReck.login')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
 
@@ -62,5 +62,7 @@ Route::middleware('cheReck.login')->group(function () {
     Route::delete('/perfil-acesso/{perfilAcesso}', [PerfilAcessoController::class, 'destroy']);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::get('/notificacoes', [\App\Http\Controllers\NotificacaoController::class, 'index']);
 
 });

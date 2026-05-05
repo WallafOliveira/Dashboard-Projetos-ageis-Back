@@ -37,4 +37,9 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(PerfilAcesso::class, 'perfil_acesso_id');
     }
+
+    public function notificacoes()
+    {
+        return $this->hasMany(Notificacao::class, 'usuario_id');
+    }
 }

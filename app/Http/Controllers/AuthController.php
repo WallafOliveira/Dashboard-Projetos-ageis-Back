@@ -22,17 +22,18 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
 
-        session(['usuario_id' => $user->id]);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login realizado com sucesso.',
             'user' => $user,
+            'token' => $token,
         ], Response::HTTP_OK);
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $request->session()->forget('usuario_id');
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Logout realizado com sucesso.',
@@ -41,8 +42,6 @@ class AuthController extends Controller
 
     public function me(Request $request): JsonResponse
     {
-        $user = Usuario::find(session('usuario_id'));
-
-        return response()->json($user, Response::HTTP_OK);
+        return response()->json($request->user(), Response::HTTP_OK);
     }
 }

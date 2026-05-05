@@ -16,12 +16,22 @@ class UsuarioSeeder extends Seeder
         $perfis = DB::table('perfil_acesso')->pluck('id')->toArray();
 
         DB::table('usuarios')->insert([
-            'nome' => 'Admin',
-            'email' => 'admin@admin.com',
-            'senha' => '12345678',
-            'perfil_acesso_id' => $perfis[0] ?? 1,
-            'created_at' => $agora,
-            'updated_at' => $agora,
+            [
+                'nome' => 'Admin',
+                'email' => 'admin@admin.com',
+                'senha' => '12345678',
+                'perfil_acesso_id' => $perfis[0] ?? 1,
+                'created_at' => $agora,
+                'updated_at' => $agora,
+            ],
+            [
+                'nome' => 'Bruno Albertoni',
+                'email' => 'brunoalbertoni06@gmail.com',
+                'senha' => '12345678',
+                'perfil_acesso_id' => $perfis[0] ?? 1,
+                'created_at' => $agora,
+                'updated_at' => $agora,
+            ]
         ]);
 
         $lote = [];

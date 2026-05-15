@@ -10,6 +10,15 @@ class Produto extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome', 'categoria_abc', 'custo_unitario', 'quantidade_atual', 'estoque_minimo', 'prazo_reposicao_dias'
+        'nome',
+        'sku',
+        'categoria',
+        'quantidade',
+        'preco_unitario',
+        'status',
+        'categoria_abc',
+        'custo_unitario',
+        'estoque_minimo',
+        'prazo_reposicao_dias'
     ];
 }

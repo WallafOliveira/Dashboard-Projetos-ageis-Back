@@ -25,12 +25,24 @@ class VendasService
 
         $produto->decrement('quantidade', $dados['quantidade']);
 
-        return Venda::create([
+        $venda = Venda::create([
             'produto_id'  => $dados['produto_id'],
             'usuario_id'  => $dados['usuario_id'],
             'quantidade'  => $dados['quantidade'],
             'preco_total' => $produto->preco * $dados['quantidade'],
         ]);
+
+        $usuario = \App\Models\Usuario::find($dados['usuario_id']);
+        $nomeUsuario = $usuario ? $usuario->nome : 'Sistema';
+
+        \App\Models\Atividade::create([
+            'usuario_nome' => $nomeUsuario,
+            'acao' => 'fechou uma venda',
+            'alvo' => 'R$ ' . number_format($venda->preco_total, 2, ',', '.'),
+            'avatar_url' => null,
+        ]);
+
+        return $venda;
     }
 
     // Verrificar se é necessario implementar a atualização de vendas, pois isso pode complicar o controle de estoque.

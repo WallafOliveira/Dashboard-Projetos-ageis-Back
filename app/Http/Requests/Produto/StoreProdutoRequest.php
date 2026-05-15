@@ -15,10 +15,11 @@ class StoreProdutoRequest extends FormRequest
     {
         return [
             'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'preco' => 'required|numeric|min:0',
+            'sku' => 'required|string|max:100|unique:produtos,sku',
+            'categoria' => 'required|string|max:100',
             'quantidade' => 'required|integer|min:0',
-
+            'preco_unitario' => 'required|numeric|min:0',
+            'status' => 'required|in:OK,Baixo,Crítico',
         ];
     }
 
@@ -26,9 +27,11 @@ class StoreProdutoRequest extends FormRequest
     {
         return [
             'nome' => 'nome',
-            'descricao' => 'descrição',
-            'preco' => 'preço',
-            'quantidade' => 'quantidade em estoque',
+            'sku' => 'SKU',
+            'categoria' => 'categoria',
+            'quantidade' => 'quantidade',
+            'preco_unitario' => 'preço unitário',
+            'status' => 'status',
         ];
     }
 }

@@ -2,50 +2,198 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory;
+use App\Models\Produto;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ProdutoSeeder extends Seeder
 {
     public function run(): void
     {
-        $faker = Factory::create('pt_BR');
-        $agora = now();
-        $categorias = ['Alimento', 'Bebida', 'Eletronico', 'Higiene', 'Limpeza', 'Escritorio', 'Informatica', 'Acessorio'];
-        $adjetivos = ['Premium', 'Economico', 'Profissional', 'Compacto', 'Resistente', 'Eficiente', 'Moderno', 'Essencial'];
-        $descricoes = [
-            'Produto indicado para uso diario com excelente custo-beneficio.',
-            'Item desenvolvido para aumentar produtividade e qualidade no processo.',
-            'Solucao versatil com boa durabilidade e desempenho consistente.',
-            'Material de apoio operacional com facil aplicacao e manutencao simples.',
-            'Produto com foco em eficiencia, seguranca e padrao de qualidade.',
+        $produtos = [
+            [
+                'nome' => 'Notebook Dell Inspiron 15',
+                'sku' => 'SKU-001',
+                'categoria' => 'Eletrônicos',
+                'quantidade' => 45,
+                'preco_unitario' => 3500.00,
+                'custo_unitario' => 2800.00,
+                'estoque_minimo' => 10,
+                'prazo_reposicao_dias' => 5,
+                'categoria_abc' => 'A',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Mouse Logitech MX Master',
+                'sku' => 'SKU-002',
+                'categoria' => 'Periféricos',
+                'quantidade' => 128,
+                'preco_unitario' => 280.00,
+                'custo_unitario' => 180.00,
+                'estoque_minimo' => 50,
+                'prazo_reposicao_dias' => 3,
+                'categoria_abc' => 'B',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Teclado Mecânico RGB',
+                'sku' => 'SKU-003',
+                'categoria' => 'Periféricos',
+                'quantidade' => 5,
+                'preco_unitario' => 450.00,
+                'custo_unitario' => 300.00,
+                'estoque_minimo' => 15,
+                'prazo_reposicao_dias' => 7,
+                'categoria_abc' => 'A',
+                'status' => 'Crítico',
+            ],
+            [
+                'nome' => 'Monitor LG 27 polegadas',
+                'sku' => 'SKU-004',
+                'categoria' => 'Eletrônicos',
+                'quantidade' => 12,
+                'preco_unitario' => 1200.00,
+                'custo_unitario' => 900.00,
+                'estoque_minimo' => 8,
+                'prazo_reposicao_dias' => 10,
+                'categoria_abc' => 'A',
+                'status' => 'Baixo',
+            ],
+            [
+                'nome' => 'Webcam Full HD Logitech',
+                'sku' => 'SKU-005',
+                'categoria' => 'Periféricos',
+                'quantidade' => 67,
+                'preco_unitario' => 350.00,
+                'custo_unitario' => 220.00,
+                'estoque_minimo' => 20,
+                'prazo_reposicao_dias' => 4,
+                'categoria_abc' => 'B',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Headset Gamer SteelSeries',
+                'sku' => 'SKU-006',
+                'categoria' => 'Áudio',
+                'quantidade' => 23,
+                'preco_unitario' => 550.00,
+                'custo_unitario' => 350.00,
+                'estoque_minimo' => 10,
+                'prazo_reposicao_dias' => 6,
+                'categoria_abc' => 'B',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'SSD NVMe 1TB Samsung',
+                'sku' => 'SKU-007',
+                'categoria' => 'Armazenamento',
+                'quantidade' => 3,
+                'preco_unitario' => 650.00,
+                'custo_unitario' => 450.00,
+                'estoque_minimo' => 12,
+                'prazo_reposicao_dias' => 8,
+                'categoria_abc' => 'A',
+                'status' => 'Crítico',
+            ],
+            [
+                'nome' => 'Memória RAM 16GB DDR4',
+                'sku' => 'SKU-008',
+                'categoria' => 'Componentes',
+                'quantidade' => 31,
+                'preco_unitario' => 250.00,
+                'custo_unitario' => 160.00,
+                'estoque_minimo' => 15,
+                'prazo_reposicao_dias' => 4,
+                'categoria_abc' => 'B',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Processador Intel i7 11º Gen',
+                'sku' => 'SKU-009',
+                'categoria' => 'Componentes',
+                'quantidade' => 8,
+                'preco_unitario' => 2100.00,
+                'custo_unitario' => 1600.00,
+                'estoque_minimo' => 5,
+                'prazo_reposicao_dias' => 14,
+                'categoria_abc' => 'A',
+                'status' => 'Baixo',
+            ],
+            [
+                'nome' => 'Placa Mãe ASUS ROG',
+                'sku' => 'SKU-010',
+                'categoria' => 'Componentes',
+                'quantidade' => 15,
+                'preco_unitario' => 1800.00,
+                'custo_unitario' => 1300.00,
+                'estoque_minimo' => 8,
+                'prazo_reposicao_dias' => 12,
+                'categoria_abc' => 'A',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Fonte 750W Corsair',
+                'sku' => 'SKU-011',
+                'categoria' => 'Componentes',
+                'quantidade' => 2,
+                'preco_unitario' => 650.00,
+                'custo_unitario' => 450.00,
+                'estoque_minimo' => 6,
+                'prazo_reposicao_dias' => 9,
+                'categoria_abc' => 'B',
+                'status' => 'Crítico',
+            ],
+            [
+                'nome' => 'Cooler Stock Intel',
+                'sku' => 'SKU-012',
+                'categoria' => 'Refrigeração',
+                'quantidade' => 45,
+                'preco_unitario' => 80.00,
+                'custo_unitario' => 40.00,
+                'estoque_minimo' => 20,
+                'prazo_reposicao_dias' => 2,
+                'categoria_abc' => 'C',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Gabinete NZXT H510',
+                'sku' => 'SKU-013',
+                'categoria' => 'Gabinetes',
+                'quantidade' => 9,
+                'preco_unitario' => 500.00,
+                'custo_unitario' => 350.00,
+                'estoque_minimo' => 5,
+                'prazo_reposicao_dias' => 8,
+                'categoria_abc' => 'B',
+                'status' => 'Baixo',
+            ],
+            [
+                'nome' => 'Mousepad Grande',
+                'sku' => 'SKU-014',
+                'categoria' => 'Acessórios',
+                'quantidade' => 120,
+                'preco_unitario' => 85.00,
+                'custo_unitario' => 35.00,
+                'estoque_minimo' => 40,
+                'prazo_reposicao_dias' => 3,
+                'categoria_abc' => 'C',
+                'status' => 'OK',
+            ],
+            [
+                'nome' => 'Suporte para Monitor',
+                'sku' => 'SKU-015',
+                'categoria' => 'Acessórios',
+                'quantidade' => 0,
+                'preco_unitario' => 150.00,
+                'custo_unitario' => 80.00,
+                'estoque_minimo' => 10,
+                'prazo_reposicao_dias' => 5,
+                'categoria_abc' => 'C',
+                'status' => 'Crítico',
+            ],
         ];
 
-        $lote = [];
-        $total = 1200;
-
-        for ($i = 1; $i <= $total; $i++) {
-            $categoria = $faker->randomElement($categorias);
-            $adjetivo = $faker->randomElement($adjetivos);
-
-            $lote[] = [
-                'nome' => $categoria.' '.$adjetivo.' '.$i,
-                'quantidade' => $faker->numberBetween(0, 5000),
-                'descricao' => $faker->randomElement($descricoes),
-                'preco' => $faker->randomFloat(2, 5, 2500),
-                'created_at' => $agora,
-                'updated_at' => $agora,
-            ];
-
-            if (count($lote) >= 1000) {
-                DB::table('produtos')->insert($lote);
-                $lote = [];
-            }
-        }
-
-        if (! empty($lote)) {
-            DB::table('produtos')->insert($lote);
+        foreach ($produtos as $produto) {
+            Produto::create($produto);
         }
     }
 }

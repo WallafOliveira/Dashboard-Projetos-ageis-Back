@@ -13,9 +13,14 @@ class ProdutosController extends Controller
 {
     public function __construct(protected ProdutosService $produtosService) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = $this->produtosService->buscaTodosProdutos();
+        $page = $request->query('page', 1);
+        $perPage = $request->query('per_page', 50);
+        $buscar = $request->query('buscar');
+        $status = $request->query('status');
+
+        $produtos = $this->produtosService->buscaTodosProdutos($page, $perPage, $buscar, $status);
         return response()->json($produtos, Response::HTTP_OK);
     }
 

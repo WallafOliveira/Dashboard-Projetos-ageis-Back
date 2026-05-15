@@ -14,10 +14,12 @@ class UpdateProdutoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
-            'preco' => 'required|numeric|min:0',
-            'quantidade' => 'required|integer|min:0',
+            'nome' => 'sometimes|string|max:255',
+            'sku' => 'sometimes|string|max:100|unique:produtos,sku,' . $this->produto->id,
+            'categoria' => 'sometimes|string|max:100',
+            'quantidade' => 'sometimes|integer|min:0',
+            'preco_unitario' => 'sometimes|numeric|min:0',
+            'status' => 'sometimes|in:OK,Baixo,Crítico',
         ];
     }
 
@@ -25,9 +27,11 @@ class UpdateProdutoRequest extends FormRequest
     {
         return [
             'nome' => 'nome',
-            'descricao' => 'descrição',
-            'preco' => 'preço',
-            'quantidade' => 'quantidade em estoque',
+            'sku' => 'SKU',
+            'categoria' => 'categoria',
+            'quantidade' => 'quantidade',
+            'preco_unitario' => 'preço unitário',
+            'status' => 'status',
         ];
     }
 }

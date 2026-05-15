@@ -257,18 +257,54 @@ class DashboardController extends Controller
 
     public function getEstoque(Request $request)
     {
-        $valorEstoque = Produto::sum(DB::raw('custo_unitario * quantidade_atual'));
-        $riscoRuptura = Produto::whereColumn('quantidade_atual', '<=', 'estoque_minimo')->count();
-        $prazoMedio = Produto::avg('prazo_reposicao_dias') ?? 0;
+        // KPI 1: Valor em Estoque
+        $valorEstoque = Produto::sum(DB::raw('custo_unitario * quantidade')) ?? 0;
 
+        // KPI 2: Giro de Estoque (baseado em vendas no período)
+        $startYear = Carbon::now()->startOfYear();
+        $endNow = Carbon::now();
+        
+        $totalVendidoValor = Pedido::where('status', 'Concluído')
+            ->whereBetween('data_pedido', [$startYear, $endNow])
+            ->sum('valor_total') ?? 0;
+        
+        $giroEstoque = $valorEstoque > 0 ? round($totalVendidoValor / $valorEstoque, 1) : 0;
+
+        // KPI 3: Risco de Ruptura
+        $riscoRuptura = Produto::whereColumn('quantidade', '<=', 'estoque_minimo')->count();
+
+        // KPI 4: Prazo Médio de Reposição
+        $prazoMedio = round(Produto::avg('prazo_reposicao_dias') ?? 0);
+
+        // Chart: Curva ABC
         $curvaABC = Produto::select('categoria_abc', DB::raw('COUNT(*) as total'))
             ->groupBy('categoria_abc')->pluck('total', 'categoria_abc');
 
         return response()->json([
             'kpis' => [
-                'valor_estoque' => $valorEstoque,
-                'risco_ruptura' => $riscoRuptura,
-                'prazo_medio_reposicao' => round($prazoMedio, 2),
+                'valor_estoque' => [
+                    'valor' => round($valorEstoque, 2),
+                    'formatado' => 'R$ ' . number_format($valorEstoque, 2, ',', '.'),
+                    'tipo' => 'moeda'
+                ],
+                'giro_estoque' => [
+                    'valor' => $giroEstoque,
+                    'formatado' => $giroEstoque . 'x',
+                    'status' => $giroEstoque > 4.5 ? 'Acima da média' : 'Dentro da média',
+                    'tipo' => 'decimal'
+                ],
+                'risco_ruptura' => [
+                    'valor' => $riscoRuptura,
+                    'formatado' => $riscoRuptura . ' itens',
+                    'status' => $riscoRuptura > 0 ? 'Baixo estoque' : 'Normal',
+                    'tipo' => 'inteiro'
+                ],
+                'prazo_medio_reposicao' => [
+                    'valor' => $prazoMedio,
+                    'formatado' => $prazoMedio . ' dias',
+                    'status' => $riscoRuptura > 5 ? 'Atraso em ' . $riscoRuptura . ' pedidos' : 'Normal',
+                    'tipo' => 'inteiro'
+                ]
             ],
             'charts' => [
                 'curva_abc' => $curvaABC

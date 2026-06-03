@@ -14,9 +14,15 @@ return new class extends Migration
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
-            $table->integer('quantidade');
+            $table->string('sku')->unique();
+            $table->string('categoria')->nullable();
+            $table->integer('quantidade')->default(0);
+            $table->integer('estoque_minimo')->default(10);
+            $table->decimal('preco', 10, 2)->default(0);
+            $table->decimal('preco_unitario', 10, 2)->default(0);
             $table->text('descricao')->nullable();
-            $table->decimal('preco', 8, 2);
+            $table->string('peso')->nullable();
+            $table->json('especificacoes')->nullable();
             $table->timestamps();
         });
     }
